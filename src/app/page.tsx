@@ -1,95 +1,91 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useState, FormEvent, ChangeEvent, useRef } from 'react';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [file, setFile] = useState<File | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+      setUploadSuccess(false); // 新しいファイルが選択されたら成功メッセージをリセット
+    }
+  };
+
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    setFile(null);
+  };
+
+  // ファイル送信
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!file) {
+      setError('ファイルを選択してください。');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+    setUploadSuccess(false);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUploadSuccess(true);
+        resetFileInput(); // ファイルアップロード成功後にファイル選択をリセット
+      } else {
+        throw new Error(data.message || 'エラーが発生しました。');
+      }
+    } catch (error) {
+      setError('ファイルのアップロードまたは処理中にエラーが発生しました。');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">PDF処理アプリ</h1>
+      <form onSubmit={handleSubmit} className="mb-4">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          accept=".pdf,.txt"
+          className="mb-2 p-2 border rounded"
+          ref={fileInputRef}
+        />
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          {isLoading ? '処理中...' : 'アップロード'}
+        </button>
+      </form>
+      {error && <p className="text-red-500">{error}</p>}
+      {uploadSuccess && (
+        <p className="text-green-500 mb-4">ファイルが正常にアップロードされました。</p>
+      )}
+      {file && (
+        <p className="mb-2">
+          選択されたファイル: {file.name}
+        </p>
+      )}
     </div>
   );
 }
