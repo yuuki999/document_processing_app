@@ -8,6 +8,9 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const file = formData.get('file') as File | null;
 
+  console.log('Using bucket:', BUCKET_NAME);
+  console.log('Using region:', process.env.AWS_REGION);
+
   if (!file) {
     return NextResponse.json({ message: 'ファイルがアップロードされていません。' }, { status: 400 });
   }
