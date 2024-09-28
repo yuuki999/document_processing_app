@@ -1,11 +1,32 @@
+"use client";
+
 import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from './styles/home.module.css';
 import MaterialIcon from './_components/icon';
 import Link from 'next/link';
+import { useState, useEffect } from "react";
+import FontFaceObserver from 'fontfaceobserver';
 
 const Home = () => {
+  // TODO: ここチカチカするからなんとかしたい。
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    const observer = new FontFaceObserver('Material Symbols Outlined');
+    observer.load(null, 5000).then(() => {
+      setFontsLoaded(true);
+    }).catch((err) => {
+      console.error('Font loading failed:', err);
+      setFontsLoaded(true);
+    });
+  }, []);
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   return (
     <div className={styles.container}>
       <Head>
