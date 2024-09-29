@@ -1,15 +1,38 @@
 "use client";
 
-import React, { useState, FormEvent, ChangeEvent, useRef } from 'react';
+import React, { useState, FormEvent, ChangeEvent, useRef, useEffect } from 'react';
 import { Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react';
 import styles from './styles/upload.module.css';
+import { useAuth } from '../_auth/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function PDFProcessor() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { isLoggedIn, checkAuthStatus, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    checkAuthStatus(); // 現在の認証状態を確認する
+  }, [checkAuthStatus]);
+
+  useEffect(() => {
+    console.log("Auth state:", isLoggedIn, "Loading:", isLoading);
+    if (!isLoading && !isLoggedIn) {
+      console.log("認証チェックが完了し、未ログイン状態が確認されました。リダイレクトします。");
+      router.push('/');
+    }
+  }, [isLoading, isLoggedIn, router]);
+
+  if (isLoading) {
+    return <></>;  // ローディング中は何も表示しない
+  }
+
+  if (!isLoggedIn) {
+    return null; // 未ログイン状態が確定したら何も表示しない（リダイレクトされるため）
+  }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
