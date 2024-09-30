@@ -1,0 +1,19 @@
+.logo {
+  display: inline-flex;
+  align-items: center; 
+  max-width: 100%;
+  height: auto;
+  padding-top: 8px;
+}
+
+.logo svg {
+  width: 100%;
+  height: auto;
+  max-width: 180px;
+}
+
+@media (max-width: 600px) {
+  .logo svg {
+    max-width: 150px;
+  }
+}

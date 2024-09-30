@@ -8,9 +8,9 @@ import MaterialIcon from './_components/icon';
 import Link from 'next/link';
 import { useState, useEffect } from "react";
 import FontFaceObserver from 'fontfaceobserver';
+import MockupSection from './_components/MockupSection';
 
 const Home = () => {
-  // TODO: ここチカチカするからなんとかしたい。
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -45,17 +45,7 @@ const Home = () => {
                 <button className={styles.ctaButton}>お問い合わせ（無料）</button>
               </Link>
             </div>
-            {/* 画像の画質が悪いので改善したい。 */}
-            {/* TODO: スプレットシートの画像もPCで表示したい。 */}
-            <div className={styles.mockup}>
-              <Image 
-                src="/images/line_talk.svg"
-                alt="iPhone frame with LINE chat"
-                width={0}
-                height={0}
-                className={styles.phoneFrame}
-              />
-            </div>
+            <MockupSection></MockupSection>
           </div>
         </section>
 
@@ -109,29 +99,32 @@ const Home = () => {
         </section>
 
         <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>料金プラン</h2>
-        <div className={styles.pricingContainer}>
-          <div className={styles.setupFee}>
-            <h3>初期セットアップ</h3>
-            <p className={styles.price}>10,000円</p>
-            <ul>
-              <li><MaterialIcon name="check_circle" color="green" /> LINE公式アカウント構築</li>
-              <li><MaterialIcon name="check_circle" color="green" /> スプレッドシート組み込み</li>
-              <li><MaterialIcon name="check_circle" color="green" /> インフラ設定</li>
-              <li><MaterialIcon name="check_circle" color="green" /> 利用サポート</li>
-            </ul>
+          <h2 className={styles.sectionTitle}>料金プラン</h2>
+          <div className={styles.pricingContainer}>
+            <div className={styles.setupFee}>
+              <h3>初期セットアップ</h3>
+              <p className={styles.price}>
+                <span className={styles.originalPrice}>通常価格: 100,000円</span>
+                <span className={styles.currentPrice}>現在無料！</span>
+              </p>
+              <ul>
+                <li><MaterialIcon name="check_circle" color="green" /> LINE公式アカウント構築</li>
+                <li><MaterialIcon name="check_circle" color="green" /> スプレッドシート組み込み</li>
+                <li><MaterialIcon name="check_circle" color="green" /> インフラ設定</li>
+                <li><MaterialIcon name="check_circle" color="green" /> 利用サポート</li>
+              </ul>
+            </div>
+            <div className={styles.monthlyFee}>
+              <h3>月額インフラ利用料</h3>
+              <p className={styles.price}>応相談</p>
+              <p>※ 利用状況に応じて決定いたします</p>
+            </div>
           </div>
-          <div className={styles.monthlyFee}>
-            <h3>月額インフラ利用料目安</h3>
-            <p className={styles.price}>100円 ~ 3,000円</p>
-            <p>※ 利用量に応じて変動</p>
+          <div className={styles.note}>
+            <MaterialIcon name="info" color="#1a73e8" />
+            <p>期間限定で初期セットアップを無料で提供しています。詳細はお問い合わせください。</p>
           </div>
-        </div>
-        <div className={styles.note}>
-          <MaterialIcon name="info" color="#1a73e8" />
-          <p>初期セットアップ後は、ご利用状況に応じた月額インフラ利用料のみが発生します。</p>
-        </div>
-      </section>
+        </section>
 
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>今すぐ始めましょう！</h2>

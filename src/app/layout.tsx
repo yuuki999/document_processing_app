@@ -4,6 +4,7 @@ import styles from './styles/home.module.css';
 import Link from "next/link";
 import { AuthProvider } from "./_auth/AuthProvider";
 import ClientNavigation from "./_components/ClientNavigation";
+import { Logo } from "./_components/Logo";
 
 export const metadata: Metadata = {
   title: "SmartReply",
@@ -28,9 +29,7 @@ export default function RootLayout({
           <div className={styles.pageContainer}>
             <header className={styles.header}>
               <div className={styles.headerContent}>
-                <Link href="/" className={styles.logo} aria-label="ホーム画面へ">
-                  SmartReply
-                </Link>
+                <Logo />
                 <ClientNavigation />
               </div>
             </header>

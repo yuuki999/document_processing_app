@@ -16,7 +16,7 @@
 /* ヘッダー関連 */
 .header {
   background-color: white;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
@@ -66,9 +66,40 @@
 
 
 /* ヘッダー関連終わり */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .heroWrapper {
-  background-color: #f0f4f8;
-  padding: 4rem 2rem;
+  background: 
+    linear-gradient(-45deg, #1a4b77, #2980b9, #5dade2, #aed6f1),
+    radial-gradient(ellipse at bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+  background-blend-mode: normal, screen;
+  background-size: 400% 400%, 100% 100%;
+  animation: gradientAnimation 15s ease infinite;
+  padding: 8rem 2rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroWrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(to top, white, rgba(255,255,255,0));
+  pointer-events: none;
 }
 
 .hero {
@@ -87,7 +118,6 @@
 .title {
   font-size: 3.5rem;
   font-weight: 800;
-  color: #333;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -95,7 +125,6 @@
 
 .subtitle {
   font-size: 1.25rem;
-  color: #666;
   margin-bottom: 2rem;
 }
 
@@ -116,19 +145,40 @@
 }
 
 /* ここからスマホのフレーム */
-.mockup {
-  flex: 1;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
+.mockupContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+.mockup {
+  position: relative;
+}
+.phoneFrame {
+  width: auto;
+  height: auto;
+  max-width: 150px;
+  max-height: 200px;
 }
 
-.phoneFrame {
-  width: 50%;
+.macbookFrame {
+  width: auto;
   height: auto;
+  max-width: 300px;
+  max-height: 500px;
+}
+
+@media (max-width: 768px) {
+  .mockupContainer {
+    flex-direction: column;
+  }
+
+  .phoneFrame, .macbookFrame {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* ここまでスマホのフレーム */
@@ -228,6 +278,20 @@
 
 .note span {
   margin-right: 0.5rem;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 0.9em;
+  display: block;
+}
+
+.currentPrice {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 1.2em;
+  display: block;
 }
 /* 料金ここまで */
 
