@@ -46,6 +46,7 @@ const Home = () => {
               </Link>
             </div>
             {/* 画像の画質が悪いので改善したい。 */}
+            {/* TODO: スプレットシートの画像もPCで表示したい。 */}
             <div className={styles.mockup}>
               <Image 
                 src="/images/line_talk.svg"
