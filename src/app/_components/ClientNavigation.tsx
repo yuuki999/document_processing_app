@@ -4,19 +4,30 @@ import Link from "next/link";
 import { UserCircle, LogOut } from 'lucide-react';
 import { useAuth } from '../_auth/useAuth';
 import styles from '../styles/home.module.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 
 const ClientNavigation = () => {
   const { isLoggedIn, logout, checkAuthStatus } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    checkAuthStatus();
+    const checkAuth = async () => {
+      setIsLoading(true);
+      await checkAuthStatus();
+      setIsLoading(false);
+    };
+    checkAuth();
   }, [checkAuthStatus]);
 
   const handleLogout = async () => {
     await logout();
-    checkAuthStatus(); // ログアウト後に認証状態を再チェック
+    checkAuthStatus();
   };
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <nav className={styles.nav}>

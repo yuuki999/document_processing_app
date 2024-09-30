@@ -12,4 +12,5 @@ AWS_PROFILE=itoi node ./user_register/register.js
 
 
 TODO:
-bedrockのモデルを会社ごとにファインチューニングできるかどうか調査。
+- bedrockのモデルを会社ごとにファインチューニングできるかどうか調査。
+- 画面ローディング直後にヘッダーが初期状態が見えるので回避する。

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 export default function PDFProcessor() {
   const [file, setFile] = useState<File | null>(null);
+  const [isUploadLoading, setisUploadLoading] = useState<boolean>(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,7 +57,7 @@ export default function PDFProcessor() {
       return;
     }
 
-    setIsLoading(true);
+    setisUploadLoading(true);
     setError('');
     setUploadSuccess(false);
 
@@ -79,7 +80,7 @@ export default function PDFProcessor() {
       setError('ファイルのアップロードまたは処理中にエラーが発生しました。');
       console.error('Error:', error);
     } finally {
-      setIsLoading(false);
+      setisUploadLoading(false);
     }
   };
 
@@ -111,10 +112,10 @@ export default function PDFProcessor() {
         )}
         <button
           type="submit"
-          disabled={isLoading || !file}
-          className={`${styles.submitButton} ${isLoading ? styles.submitButtonLoading : ''}`}
+          disabled={isUploadLoading || !file}
+          className={`${styles.submitButton} ${isUploadLoading ? styles.submitButtonLoading : ''}`}
         >
-          {isLoading ? 'アップロード中...' : 'アップロードする'}
+          {isUploadLoading ? 'アップロード中...' : 'アップロードする'}
         </button>
       </form>
       {error && (
