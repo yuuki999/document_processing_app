@@ -10,9 +10,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const router = useRouter();
 
   const checkAuthStatus = useCallback(async () => {
-    if (!isLoading && isLoggedIn !== null) return; // 既にチェック済みの場合は何もしない
-
-    setIsLoading(true);
     try {
       const response = await fetch('/api/check-auth', {
         method: 'GET',
@@ -23,11 +20,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('Authentication check failed:', error);
       setIsLoggedIn(false);
-    } finally {
-      setIsLoading(false);
     }
-  }, [isLoading, isLoggedIn]);
+  }, []); // 依存配列を空にする
 
+  // ルートレイアウトをAuthProviderでラップすれば、useEffectがアプリケーションの初期化時に一度実行される。
+  // 認証チェックなどをここに定義すると便利
   useEffect(() => {
     checkAuthStatus();
   }, [checkAuthStatus]);
@@ -44,6 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       const data = await response.json();
       if (response.ok) {
+        console.log("ログインできた。");
         await checkAuthStatus(); // 認証状態を即座に更新
         return true;
       }
@@ -76,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
+    // 全ての子孫コンポーネントでcontextValueを使用できるようにする。
     <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>

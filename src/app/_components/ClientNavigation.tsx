@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 
 const ClientNavigation = () => {
-  const { isLoggedIn, logout, checkAuthStatus } = useAuth();
+  const { isLoggedIn, logout, checkAuthStatus } = useAuth(); // カスタムフックのuseStateの値が更新されるとこのコンポーネントも再レンダリングされる。
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
@@ -18,7 +18,7 @@ const ClientNavigation = () => {
       setIsLoading(false);
     };
     checkAuth();
-  }, [checkAuthStatus]);
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -29,6 +29,7 @@ const ClientNavigation = () => {
     return <></>;
   }
 
+  // ログイン直後はここで状態が取得できていないので画面が変わらない。
   return (
     <nav className={styles.nav}>
       <Link href="/" className={styles.navLink}>ホーム</Link>

@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { verify } from 'jsonwebtoken';
 
 export async function GET(request: NextRequest) {
+  // TODO: 本来ならCookieにセッションIDを保持して、IDの値を元にサーバーサイドのセッションからJWTを取得して検証する方がセキュアで一般的。
+  // だが、JWTが検証ツールで閲覧できてもJWT自体が秘密鍵で署名されているため、悪用されるリスクはかなり低い。
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
 
