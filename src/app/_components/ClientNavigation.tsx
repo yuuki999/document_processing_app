@@ -45,8 +45,6 @@ const ClientNavigation = () => {
     return <></>;
   }
 
-  // ログイン直後はここで状態が取得できていないので画面が変わらない。
-  // モーダルが表示された時に、罰ボタンを表示したい。
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
@@ -75,6 +73,7 @@ const ClientNavigation = () => {
           )}
         </nav>
       </div>
+      {/* ハンバーガーメニュー */}
       <div className={`${styles.fullscreenMenu} ${isMenuOpen ? styles.open : ''}`}>
         <button className={styles.closeButton} onClick={() => setIsMenuOpen(false)}>×</button>
         <div className={styles.menuItems}>
