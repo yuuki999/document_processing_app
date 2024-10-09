@@ -2,13 +2,13 @@
 
 import React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import styles from './styles/home.module.css';
 import MaterialIcon from './_components/icon';
 import Link from 'next/link';
 import { useState, useEffect } from "react";
 import FontFaceObserver from 'fontfaceobserver';
 import MockupSection from './_components/MockupSection';
+import LucideIcon from './_components/icon';
 
 const Home = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -53,22 +53,22 @@ const Home = () => {
           <h2 className={styles.sectionTitle}>こんな悩みありませんか？</h2>
           <div className={styles.grid}>
             <div className={styles.card}>
-              <MaterialIcon name="schedule" size={48} color="#1a73e8" />
+              <LucideIcon name="Clock" size={48} color="#1a73e8" />
               <h3 className={styles.cardTitle}>営業時間外の問い合わせ対応ができない</h3>
               <p>24時間365日、AIが自動でお客様の質問に回答します。</p>
             </div>
             <div className={styles.card}>
-              <MaterialIcon name="support_agent" size={48} color="#1a73e8" />
+              <LucideIcon name="Headphones" size={48} color="#1a73e8" />
               <h3 className={styles.cardTitle}>人手不足で顧客対応に時間がかけられない</h3>
               <p>AIが初期対応を行い、スタッフの負担を軽減します。</p>
             </div>
             <div className={styles.card}>
-              <MaterialIcon name="savings" size={48} color="#1a73e8" />
+              <LucideIcon name="PiggyBank" size={48} color="#1a73e8" />
               <h3 className={styles.cardTitle}>高額なチャットボットサービスは導入できない</h3>
               <p>低コストで高品質なサービスを提供。予算に優しく、ビジネス成長をサポートします。</p>
             </div>
             <div className={styles.card}>
-              <MaterialIcon name="psychology" size={48} color="#1a73e8" />
+              <LucideIcon name="Brain" size={48} color="#1a73e8" />
               <h3 className={styles.cardTitle}>迅速なAI構築・導入</h3>
               <p>最短1日、最長3日で構築完了。</p>
             </div>

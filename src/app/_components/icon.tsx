@@ -1,22 +1,23 @@
 import React from 'react';
+import * as LucideIcons from 'lucide-react';
 
-interface MaterialIconProps {
+type IconName = keyof typeof LucideIcons;
+
+interface LucideIconProps {
   name: string;
   size?: number;
   color?: string;
 }
 
-const MaterialIcon: React.FC<MaterialIconProps> = ({ name, size = 24, color = 'currentColor' }) => (
-  <span 
-    className="material-symbols-outlined" 
-    style={{ 
-      fontSize: `${size}px`, 
-      color, 
-      fontVariationSettings: '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48'
-    }}
-  >
-    {name}
-  </span>
-);
+const LucideIcon: React.FC<LucideIconProps> = ({ name, size = 24, color = 'currentColor' }) => {
+  const IconComponent = (LucideIcons as any)[name] as React.ElementType | undefined;
 
-export default MaterialIcon;
+  if (!IconComponent) {
+    console.warn(`Icon "${name}" not found in Lucide React`);
+    return null;
+  }
+
+  return <IconComponent size={size} color={color} />;
+};
+
+export default LucideIcon;
