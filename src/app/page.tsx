@@ -11,21 +11,6 @@ import MockupSection from './_components/MockupSection';
 import LucideIcon from './_components/icon';
 
 const Home = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  useEffect(() => {
-    const observer = new FontFaceObserver('Material Symbols Outlined');
-    observer.load(null, 5000).then(() => {
-      setFontsLoaded(true);
-    }).catch((err) => {
-      console.error('Font loading failed:', err);
-      setFontsLoaded(true);
-    });
-  }, []);
-
-  if (!fontsLoaded) {
-    return <></>;
-  }
 
   return (
     <div className={styles.container}>
